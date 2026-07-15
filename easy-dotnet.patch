@@ -1,0 +1,96 @@
+diff --git a/EasyDotnet.IDE/AppWrapper/AppWrapperLocator.cs b/EasyDotnet.IDE/AppWrapper/AppWrapperLocator.cs
+index ad6f0bc..e9c1fee 100644
+--- a/EasyDotnet.IDE/AppWrapper/AppWrapperLocator.cs
++++ b/EasyDotnet.IDE/AppWrapper/AppWrapperLocator.cs
+@@ -13,7 +13,7 @@ public static class AppWrapperLocator
+ #else
+         var assemblyDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)
+             ?? throw new InvalidOperationException("Unable to determine assembly directory.");
+-        var path = Path.Combine(assemblyDir,"..","..","..","tools", "AppWrapper", "net8.0", "EasyDotnet.AppWrapper.dll");
++        var path = Path.Combine(assemblyDir, "Tools", "AppWrapper", "net8.0", "EasyDotnet.AppWrapper.dll");
+ #endif
+     if (!File.Exists(path))
+     {
+@@ -22,4 +22,4 @@ public static class AppWrapperLocator
+ 
+     return path;
+   }
+-}
+\ No newline at end of file
++}
+diff --git a/EasyDotnet.IDE/Aspire/AspireHostFactory.cs b/EasyDotnet.IDE/Aspire/AspireHostFactory.cs
+index 9ca1dd4..a50eab6 100644
+--- a/EasyDotnet.IDE/Aspire/AspireHostFactory.cs
++++ b/EasyDotnet.IDE/Aspire/AspireHostFactory.cs
+@@ -101,7 +101,7 @@ public class AspireHostFactory(ILogger<AspireHostFactory> logger, AspireRunServi
+       var path = Path.GetFullPath(Path.Join(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "../../../../EasyDotnet.Aspire/bin/Debug/net8.0/EasyDotnet.Aspire.dll"));
+ #else
+       var assemblyDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? throw new InvalidOperationException("Unable to determine assembly directory");
+-      var path = Path.Combine(assemblyDir, "..", "..", "..", "tools", "Aspire", "net8.0", "EasyDotnet.Aspire.dll");
++      var path = Path.Combine(assemblyDir, "Tools", "Aspire", "net8.0", "EasyDotnet.Aspire.dll");
+ #endif
+       if (!File.Exists(path))
+       {
+@@ -110,4 +110,4 @@ public class AspireHostFactory(ILogger<AspireHostFactory> logger, AspireRunServi
+       return path;
+     }
+   }
+-}
+\ No newline at end of file
++}
+diff --git a/EasyDotnet.IDE/Services/RoslynLocator.cs b/EasyDotnet.IDE/Services/RoslynLocator.cs
+index c7e91ab..f90f9ba 100644
+--- a/EasyDotnet.IDE/Services/RoslynLocator.cs
++++ b/EasyDotnet.IDE/Services/RoslynLocator.cs
+@@ -98,7 +98,7 @@ public static class RoslynLocator
+     var toolExeDir = Path.GetDirectoryName(assemblyLocation)
+                      ?? throw new InvalidOperationException("Unable to determine assembly directory");
+ 
+-    var storeToolsDir = Path.Combine(toolExeDir, "..", "..", "..", "tools");
++    var storeToolsDir = Path.Combine(toolExeDir, "Tools");
+     return Path.GetFullPath(Path.Combine(storeToolsDir, "Roslyn"));
+   }
+-}
+\ No newline at end of file
++}
+diff --git a/EasyDotnet.RoslynLanguageServices/EasyDotnet.RoslynLanguageServices.csproj b/EasyDotnet.RoslynLanguageServices/EasyDotnet.RoslynLanguageServices.csproj
+index e0b8295..f5a05dc 100644
+--- a/EasyDotnet.RoslynLanguageServices/EasyDotnet.RoslynLanguageServices.csproj
++++ b/EasyDotnet.RoslynLanguageServices/EasyDotnet.RoslynLanguageServices.csproj
+@@ -1,22 +1,25 @@
+ ﻿<Project Sdk="Microsoft.NET.Sdk">
+ 
+   <PropertyGroup>
+-    <TargetFramework>$(LowestNetCoreTfm)</TargetFramework>
++    <TargetFramework>net10.0</TargetFramework>
+     <IsPackable>false</IsPackable>
+   </PropertyGroup>
+ 
+   <ItemGroup>
+-    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="4.14.0">
+-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+-      <PrivateAssets>all</PrivateAssets>
+-    </PackageReference>
+-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="5.0.0" />
+-    <PackageDownload Include="Microsoft.CodeAnalysis.ExternalAccess.Extensions" Version="[5.0.0-1.25277.114]" />
+-  </ItemGroup>
+-
+-  <ItemGroup>
++    <Reference Include="Microsoft.CodeAnalysis">
++      <HintPath>$(NixRoslynDir)/Microsoft.CodeAnalysis.dll</HintPath>
++    </Reference>
++    <Reference Include="Microsoft.CodeAnalysis.CSharp">
++      <HintPath>$(NixRoslynDir)/Microsoft.CodeAnalysis.CSharp.dll</HintPath>
++    </Reference>
++    <Reference Include="Microsoft.CodeAnalysis.Workspaces">
++      <HintPath>$(NixRoslynDir)/Microsoft.CodeAnalysis.Workspaces.dll</HintPath>
++    </Reference>
++    <Reference Include="Microsoft.CodeAnalysis.CSharp.Workspaces">
++      <HintPath>$(NixRoslynDir)/Microsoft.CodeAnalysis.CSharp.Workspaces.dll</HintPath>
++    </Reference>
+     <Reference Include="Microsoft.CodeAnalysis.ExternalAccess.Extensions">
+-      <HintPath>$(NuGetPackageRoot)microsoft.codeanalysis.externalaccess.extensions/5.0.0-1.25277.114/lib/netstandard2.0/Microsoft.CodeAnalysis.ExternalAccess.Extensions.dll</HintPath>
++      <HintPath>$(NixRoslynDir)/Microsoft.CodeAnalysis.ExternalAccess.Extensions.dll</HintPath>
+     </Reference>
+   </ItemGroup>
+ 
