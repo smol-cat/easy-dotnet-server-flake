@@ -1,0 +1,4 @@
+interface:
+  display_name: "Update EasyDotnet"
+  short_description: "Update EasyDotnet server and Nix flake"
+  default_prompt: "Use $update-easy-dotnet to update the EasyDotnet source checkout and its packaging flake."
