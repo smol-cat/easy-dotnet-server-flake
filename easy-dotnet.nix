@@ -7,7 +7,7 @@
 
 let
   inherit (pkgs) lib;
-  version = "3.4.14";
+  version = "3.4.26";
   runtimeId = pkgs.dotnetCorePackages.systemToDotnetRid pkgs.stdenvNoCC.hostPlatform.system;
   roslynDir = "${pkgs.roslyn-ls}/lib/roslyn-ls";
   buildDotnetSdk = pkgs.dotnetCorePackages.combinePackages (
@@ -38,8 +38,8 @@ buildDotnetModule {
   src = fetchFromGitHub {
     owner = "GustavEikaas";
     repo = "easy-dotnet-server";
-    rev = "651e9e08ef7dc17831662b972f6279bac53dbd77";
-    hash = "sha256-E1OnVurCImdUIisPt0Fp0WsC699P1EjISx4moCSquJM=";
+    rev = "bc6cfae2698743b1be305072833c1ca282cdd3e3";
+    hash = "sha256-mgQDOt5Bm4uNBcb/jdPCaJVg0PtqU/GzWdOEu/lrOt0=";
   };
   patches = [ ./easy-dotnet.patch ];
 
